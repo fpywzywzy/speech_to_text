@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:speech_to_text/speech_to_text_provider.dart';
-import 'package:speech_to_text_example/recognition_results_widget.dart';
+import 'recognition_results_widget.dart';
 
 void main() => runApp(const ProviderDemoApp());
 
