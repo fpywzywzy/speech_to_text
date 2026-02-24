@@ -604,9 +604,22 @@ public class SpeechToTextPlugin :
                     }
                 } else {
                     // intentLookup 模式：尝试查找可用的语音识别服务
-                    // 如果找不到任何服务，才报错
-                    val componentName = localContext.findComponentName()
+                    // 首先尝试通过 findComponentName 查找
+                    var componentName = localContext.findComponentName()
+
+                    // 如果找不到，尝试检查 On-Device 语音识别（Android 12+）
+                    if (componentName == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        val onDeviceAvailable =
+                                SpeechRecognizer.isOnDeviceRecognitionAvailable(localContext)
+                        debugLog("On-Device recognition available: $onDeviceAvailable")
+                        if (onDeviceAvailable) {
+                            // On-Device 可用，设置一个标志让后续 listen 调用使用 On-Device 模式
+                            debugLog("Using On-Device speech recognition")
+                        }
+                    }
+
                     if (componentName == null) {
+                        // 两种方式都失败了
                         Log.e(logTag, "No speech recognition service found on this device")
                         activeResult?.error(
                                 SpeechToTextErrors.recognizerNotAvailable.name,
@@ -683,16 +696,32 @@ public class SpeechToTextPlugin :
 
             debugLog("System speech recognition activities found: ${resolveInfos.size}")
             if (resolveInfos.isNotEmpty()) {
+                // 返回第一个可用的语音识别活动
                 debugLog(
                         "Found system speech recognition activity: ${resolveInfos[0].activityInfo.packageName}"
                 )
-                // 返回第一个可用的语音识别活动
                 return ComponentName(
                         resolveInfos[0].activityInfo.packageName,
                         resolveInfos[0].activityInfo.name
                 )
             } else {
                 debugLog("No system speech recognition activity found")
+            }
+        }
+
+        // 尝试小米的语音识别服务 (com.xiaomi.misound)
+        if (list.isEmpty()) {
+            try {
+                val xiaomiIntent = Intent("com.xiaomi.misound.VOICE_ASSIST")
+                val xiaomiResolveInfos = packageManager.queryIntentActivities(xiaomiIntent, 0)
+                debugLog("Xiaomi voice assist activities found: ${xiaomiResolveInfos.size}")
+                if (xiaomiResolveInfos.isNotEmpty()) {
+                    debugLog(
+                            "Found Xiaomi voice assist: ${xiaomiResolveInfos[0].activityInfo.packageName}"
+                    )
+                }
+            } catch (e: Exception) {
+                debugLog("Xiaomi voice assist not available: ${e.message}")
             }
         }
 

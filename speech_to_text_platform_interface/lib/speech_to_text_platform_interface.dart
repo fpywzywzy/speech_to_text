@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-import 'method_channel_speech_to_text.dart';
+import 'package:speech_to_text_platform_interface/method_channel_speech_to_text.dart';
 
 /// Holds a configuration option for a specific platform implementation.
 ///
@@ -11,6 +11,8 @@ import 'method_channel_speech_to_text.dart';
 /// options allow specific behaviour only available on or required on
 /// a platform to be tailored.
 class SpeechConfigOption {
+
+  SpeechConfigOption(this.platform, this.name, this.value);
   /// Defines the platform implementation the option is for, this is
   /// meaningful only to the implementation.
   final String platform;
@@ -20,8 +22,6 @@ class SpeechConfigOption {
 
   /// Value of the option, meaningful only to the implementation.
   final dynamic value;
-
-  SpeechConfigOption(this.platform, this.name, this.value);
 }
 
 /// Describes the goal of your speech recognition to the system.
@@ -56,16 +56,6 @@ enum ListenMode {
 /// with named parameters. The old style is still supported but deprecated.
 /// If both are used the old style arguments are ignored.
 class SpeechListenOptions {
-  final cancelOnError;
-  final partialResults;
-  final onDevice;
-  final ListenMode listenMode;
-  final sampleRate;
-  final autoPunctuation;
-  final enableHapticFeedback;
-  final Duration? pauseFor;
-  final Duration? listenFor;
-  final String? localeId;
 
   SpeechListenOptions({
     /// If true the listen session will automatically be canceled on a permanent error.
@@ -114,6 +104,16 @@ class SpeechListenOptions {
     /// locale will be used. This is only supported on iOS and Android.
     this.localeId = null,
   });
+  final cancelOnError;
+  final partialResults;
+  final onDevice;
+  final ListenMode listenMode;
+  final sampleRate;
+  final autoPunctuation;
+  final enableHapticFeedback;
+  final Duration? pauseFor;
+  final Duration? listenFor;
+  final String? localeId;
 
   SpeechListenOptions copyWith({
     bool? cancelOnError,

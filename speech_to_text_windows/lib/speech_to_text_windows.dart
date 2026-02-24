@@ -8,15 +8,15 @@ export 'package:speech_to_text_platform_interface/speech_to_text_platform_interf
 
 /// Windows implementation of the speech_to_text plugin using UWP Speech APIs
 class SpeechToTextWindows extends SpeechToTextPlatform {
+
+  SpeechToTextWindows() {
+    // Do nothing for now
+  }
   static const MethodChannel _channel = MethodChannel('speech_to_text_windows');
 
   /// Registers this class as the default instance of [SpeechToTextPlatform]
   static void registerWith() {
     SpeechToTextPlatform.instance = SpeechToTextWindows();
-  }
-
-  SpeechToTextWindows() {
-    // Do nothing for now
   }
 
   @override

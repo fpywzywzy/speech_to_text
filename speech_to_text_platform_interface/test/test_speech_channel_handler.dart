@@ -5,13 +5,13 @@ import 'package:speech_to_text_platform_interface/speech_to_text_platform_interf
 /// implementations allowing test cases to determine what the result of
 /// a call should be.
 class TestSpeechChannelHandler {
+
+  TestSpeechChannelHandler();
   bool listenException = false;
 
   static const String listenExceptionCode = 'listenFailedError';
   static const String listenExceptionMessage = 'Failed';
   static const String listenExceptionDetails = 'Device Listen Failure';
-
-  TestSpeechChannelHandler();
 
   bool? initResult = true;
   bool? listenResult = true;

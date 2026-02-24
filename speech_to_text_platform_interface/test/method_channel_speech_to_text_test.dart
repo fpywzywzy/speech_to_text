@@ -6,7 +6,7 @@ import 'test_speech_channel_handler.dart';
 
 void main() {
   MethodChannelSpeechToText? speechToText;
-  TestSpeechChannelHandler channelHandler = TestSpeechChannelHandler();
+  final TestSpeechChannelHandler channelHandler = TestSpeechChannelHandler();
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {

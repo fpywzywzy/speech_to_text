@@ -9,6 +9,8 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -54,14 +56,14 @@ class _MyHomePageState extends State<MyHomePage> {
       });
       return;
     }
-    _info = "***** Starting loop test ***** \n";
+    _info = '***** Starting loop test ***** \n';
 
-    _info += "Open Audio Session\n";
-    String testAudioAsset = 'sounds/notification.m4r';
+    _info += 'Open Audio Session\n';
+    final String testAudioAsset = 'sounds/notification.m4r';
     logIt('Playing $testAudioAsset');
     await _player.play(testAudioAsset, loop: false);
 
-    _info += "Start Player\n";
+    _info += 'Start Player\n';
 
     setState(() {
       _currentActivity = 'playing';
@@ -69,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _init() async {
-    _info += "Init speech\n";
+    _info += 'Init speech\n';
     await _speechToText.initialize(onError: _onError, onStatus: _onStatus);
     _player.onStop = _onPlayerStop;
     setState(() {});
@@ -95,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             _inTest = true;
                             _loopTest();
                           },
-                    child: Text('Loop test')),
+                    child: const Text('Loop test')),
               ],
             ),
             TextButton(
@@ -104,12 +106,12 @@ class _MyHomePageState extends State<MyHomePage> {
                       _inTest = false;
                     }
                   : null,
-              child: Text('End Test'),
+              child: const Text('End Test'),
             ),
             Expanded(
               child: Column(
                 children: [
-                  Divider(),
+                  const Divider(),
                   Text(
                     'Currently: $_currentActivity',
                   ),
@@ -125,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _onStatus(String status) async {
     logIt('onStatus: $status');
-    _info += "Speech Status: ${status}\n";
+    _info += 'Speech Status: $status\n';
     if (_inTest && status == SpeechToText.doneStatus) {
       logIt('listener stopped');
       // await _speechToText.stop();
@@ -136,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _onError(SpeechRecognitionError errorNotification) {
-    _info += "Error: ${errorNotification.errorMsg}\n";
+    _info += 'Error: ${errorNotification.errorMsg}\n';
     setState(() {});
   }
 
@@ -147,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // await Future.delayed(Duration(seconds: 1));
     _speechToText.listen(
       listenOptions: SpeechListenOptions(
-        listenFor: Duration(seconds: 5),
+        listenFor: const Duration(seconds: 5),
       ),
     );
     setState(() {});
@@ -156,6 +158,6 @@ class _MyHomePageState extends State<MyHomePage> {
   void logIt(String message) {
     final now = DateTime.now();
     debugPrint('SoundLoop: $now, $message');
-    _info += message + '\n';
+    _info += '$message\n';
   }
 }

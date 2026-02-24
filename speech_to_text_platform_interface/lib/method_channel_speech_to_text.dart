@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'speech_to_text_platform_interface.dart';
+import 'package:speech_to_text_platform_interface/speech_to_text_platform_interface.dart';
 
 const MethodChannel _channel =
     MethodChannel('plugin.csdcorp.com/speech_to_text');
@@ -13,7 +13,7 @@ class MethodChannelSpeechToText extends SpeechToTextPlatform {
   static const String textRecognitionMethod = 'textRecognition';
   static const String notifyErrorMethod = 'notifyError';
   static const String notifyStatusMethod = 'notifyStatus';
-  static const String soundLevelChangeMethod = "soundLevelChange";
+  static const String soundLevelChangeMethod = 'soundLevelChange';
 
   /// Returns true if the user has already granted permission to access the
   /// microphone, does not prompt the user.
@@ -32,7 +32,7 @@ class MethodChannelSpeechToText extends SpeechToTextPlatform {
   Future<bool> initialize(
       {debugLogging = false, List<SpeechConfigOption>? options}) async {
     _channel.setMethodCallHandler(_handleCallbacks);
-    var params = <String, Object>{
+    final params = <String, Object>{
       'debugLogging': debugLogging,
     };
     options?.forEach((option) => params[option.name] = option.value);
@@ -104,18 +104,18 @@ class MethodChannelSpeechToText extends SpeechToTextPlatform {
       @deprecated int listenMode = 0,
       @deprecated sampleRate = 0,
       SpeechListenOptions? options}) async {
-    Map<String, dynamic> listenParams = {
-      "partialResults": options?.partialResults ?? partialResults,
-      "onDevice": options?.onDevice ?? onDevice,
-      "listenMode": options?.listenMode.index ?? listenMode,
-      "sampleRate": options?.sampleRate ?? sampleRate,
-      "enableHaptics": options?.enableHapticFeedback ?? false,
-      "autoPunctuation": options?.autoPunctuation ?? false,
-      "pauseFor": options?.pauseFor?.inMilliseconds ?? null,
-      "listenFor": options?.listenFor?.inMilliseconds ?? null,
+    final Map<String, dynamic> listenParams = {
+      'partialResults': options?.partialResults ?? partialResults,
+      'onDevice': options?.onDevice ?? onDevice,
+      'listenMode': options?.listenMode.index ?? listenMode,
+      'sampleRate': options?.sampleRate ?? sampleRate,
+      'enableHaptics': options?.enableHapticFeedback ?? false,
+      'autoPunctuation': options?.autoPunctuation ?? false,
+      'pauseFor': options?.pauseFor?.inMilliseconds,
+      'listenFor': options?.listenFor?.inMilliseconds,
     };
     if (null != (localeId ?? options?.localeId)) {
-      listenParams["localeId"] = (localeId ?? options?.localeId);
+      listenParams['localeId'] = (localeId ?? options?.localeId);
     }
     return await _channel.invokeMethod<bool>('listen', listenParams) ?? false;
   }
