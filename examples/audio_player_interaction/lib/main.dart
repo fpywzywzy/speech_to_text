@@ -5,7 +5,7 @@ import 'package:speech_to_text/speech_to_text.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'TEST'),
+      home: const MyHomePage(title: 'TEST'),
     );
   }
 }
@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _info = '***** Starting loop test ***** \n';
 
     _info += 'Open Audio Session\n';
-    final String testAudioAsset = 'sounds/notification.m4r';
+    const String testAudioAsset = 'sounds/notification.m4r';
     logIt('Playing $testAudioAsset');
     await _player.play(testAudioAsset, loop: false);
 
