@@ -92,17 +92,17 @@ class SpeechListenOptions {
     /// The length of time to pause before the speech input is considered
     /// complete. This is used to determine when to stop listening for speech
     /// input.
-    this.pauseFor = null,
+    this.pauseFor,
 
     /// The length of time to listen for speech input before stopping.
     /// This is used to limit the duration of the listen session. If null,
     /// the listen session will continue until the user stops it or a timeout
     /// occurs.
-    this.listenFor = null,
+    this.listenFor,
 
     /// The locale to use for the listen session, if null the system default
     /// locale will be used. This is only supported on iOS and Android.
-    this.localeId = null,
+    this.localeId,
   });
   final cancelOnError;
   final partialResults;
